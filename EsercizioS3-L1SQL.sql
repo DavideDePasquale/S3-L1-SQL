@@ -104,7 +104,11 @@ SELECT*FROM public.clienti WHERE anno_di_nascita = 1982;
 --ESERCIZIO 3
 SELECT*FROM public.fatture WHERE iva = 20;
 --ESERCIZIO 4
-SELECT*FROM public.fatture WHERE data_attivazione = 2017 && 
+SELECT*FROM public.prodotti WHERE EXTRACT (YEAR FROM data_attivazione) = 2017;
+--ESERCIZIO 5
+SELECT*FROM public.fatture WHERE importo < 1000;
+--ESERCIZIO 6
+SELECT*FROM public.fatture a inner join public.fornitori
 
 
 
