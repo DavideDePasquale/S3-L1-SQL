@@ -44,6 +44,8 @@ INSERT INTO public.prodotti(descrizione,in_produzione,in_commercio,data_attivazi
 						  ('Mouse Wireless', true, true, '2017-05-20', NULL),
 				          ('Maglia Inter Stagione 24/25', true,true, '2024-07-10', NULL),
 						  ('Computer Lenovo I7', true, true,'2017-05-01', NULL)
+
+						  
 						  
 SELECT * FROM public.prodotti;
 
@@ -80,10 +82,10 @@ id_cliente INT NOT NULL,
 data_fattura DATE NOT NULL,
 numero_del_fornitore INT NOT NULL,
 CONSTRAINT numero_fattura_pkey PRIMARY KEY (numero_fattura),
-CONSTRAINT fattura_id_cliente_fk FOREIGN KEY (id_cliente) REFERENCES public.clienti(numero_cliente),
+CONSTRAINT fattura_id_cliente_fk FOREIGN KEY (id_cliente) REFERENCES public.clienti(numero_cliente) ON DELETE CASCADE ON UPDATE CASCADE,
 CONSTRAINT fattura_numero_del_fornitore_fk FOREIGN KEY (numero_del_fornitore) REFERENCES public.fornitori(numero_fornitore)
 );
-
+DROP TABLE public.fatture;
 INSERT INTO public.fatture(tipologia,importo,iva,id_cliente,data_fattura,numero_del_fornitore)
                   VALUES ('Acquisto', 350.00, 23, 2, '2025-01-01', 3),
 				         ('Acquisto', 500.00, 20, 6, '2021-10-15', 6),
@@ -100,13 +102,13 @@ SELECT * FROM public.fatture;
 --ESERCIZIO 1
 SELECT*FROM public.clienti WHERE nome = 'Mario';
 --ESERCIZIO 2
-SELECT*FROM public.clienti WHERE anno_di_nascita = 1982;
+SELECT nome,cognome FROM public.clienti WHERE anno_di_nascita = 1982;
 --ESERCIZIO 3
-SELECT*FROM public.fatture WHERE iva = 20;
+SELECT numero_fattura FROM public.fatture WHERE iva = 20;
 --ESERCIZIO 4
 SELECT*FROM public.prodotti WHERE EXTRACT (YEAR FROM data_attivazione) = 2017;
 --ESERCIZIO 5
-SELECT*FROM public.fatture WHERE importo < 1000;
+SELECT numero_fattura, importo, iva, data_fattura, numero_del_fornitore, public.fornitori.denominazione FROM public.fatture INNER JOIN public.fatture ON public.fornitor WHERE importo < 1000 
 --ESERCIZIO 6
 SELECT*FROM public.fatture a inner join public.fornitori
 
