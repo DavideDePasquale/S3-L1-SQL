@@ -44,11 +44,8 @@ INSERT INTO public.prodotti(descrizione,in_produzione,in_commercio,data_attivazi
 						  ('Mouse Wireless', true, true, '2017-05-20', NULL),
 				          ('Maglia Inter Stagione 24/25', true,true, '2024-07-10', NULL),
 						  ('Computer Lenovo I7', true, true,'2017-05-01', NULL)
-
-						  
-						  
+		  
 SELECT * FROM public.prodotti;
-
 
 CREATE TABLE public.fornitori(
 numero_fornitore SERIAL NOT NULL PRIMARY KEY,
@@ -71,7 +68,6 @@ INSERT INTO public.fornitori (denominazione,regione_residenza)
 							 
 
 SELECT * FROM public.fornitori;
-
 
 CREATE TABLE public.fatture(
 numero_fattura SERIAL NOT NULL,
@@ -99,19 +95,23 @@ INSERT INTO public.fatture(tipologia,importo,iva,id_cliente,data_fattura,numero_
 SELECT * FROM public.fatture;				          
 
 
---ESERCIZIO 1
+--    ESERCIZIO 1
 SELECT*FROM public.clienti WHERE nome = 'Mario';
---ESERCIZIO 2
+--    ESERCIZIO 2
 SELECT nome,cognome FROM public.clienti WHERE anno_di_nascita = 1982;
---ESERCIZIO 3
-SELECT numero_fattura FROM public.fatture WHERE iva = 20;
---ESERCIZIO 4
-SELECT*FROM public.prodotti WHERE EXTRACT (YEAR FROM data_attivazione) = 2017;
---ESERCIZIO 5
-SELECT numero_fattura, importo, iva, data_fattura, numero_del_fornitore, public.fornitori.denominazione FROM public.fatture INNER JOIN public.fatture ON public.fornitor WHERE importo < 1000 
---ESERCIZIO 6
-SELECT*FROM public.fatture a inner join public.fornitori
-
+--    ESERCIZIO 3
+SELECT count(*) AS numero_fatture_20 FROM public.fatture WHERE iva = 20;
+--    ESERCIZIO 4
+SELECT*FROM public.prodotti WHERE EXTRACT (YEAR FROM data_attivazione) = 2017
+AND (in_produzione = true OR in_commercio = true);
+--    ESERCIZIO 5
+SELECT numero_fattura, importo, iva, data_fattura, numero_del_fornitore FROM public.fatture INNER JOIN public.clienti ON public.fatture.id_cliente = public.clienti.numero_cliente WHERE importo < 1000; 
+--    ESERCIZIO 6
+SELECT numero_fattura, importo, iva, data_fattura, denominazione FROM public.fatture INNER JOIN public.fornitori ON fatture.numero_del_fornitore = fornitori.numero_fornitore;
+--    ESERCIZIO 7
+SELECT count(*) AS numero_fatture, EXTRACT(YEAR FROM data_fattura) FROM public.fatture WHERE iva = 20 GROUP BY  EXTRACT(YEAR FROM data_fattura);
+--    ESERCIZIO 8
+SELECT count(*) AS numero_fatture,sum(importo) AS somma_importo, EXTRACT(YEAR FROM data_fattura) FROM public.fatture GROUP BY  EXTRACT(YEAR FROM data_fattura);
 
 
 
